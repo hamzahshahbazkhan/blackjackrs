@@ -1,0 +1,39 @@
+# ===========================
+# blackjackrs
+# ===========================
+
+# Build output
+/target/
+
+# Cargo.lock
+
+**/*.rs.bk
+
+
+# VS Code
+.vscode/
+
+# Vim / Neovim
+*.swp
+*.swo
+*~
+
+# Environment
+
+.env
+.env.*
+!.env.example
+
+# Logs
+
+*.log
+
+# OS files
+
+.DS_Store
+Thumbs.db
+
+# Direnv
+
+.direnv/
+.envrc

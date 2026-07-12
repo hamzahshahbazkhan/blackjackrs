@@ -1,0 +1,15 @@
+[workspace]
+members = [
+  "crates/bj-core",
+  "crates/bj-sim",
+  "crates/bj-tui",
+  "crates/bj-trainer",
+  "crates/bj-cli",
+]
+resolver ="2"
+
+[workspace.dependencies]
+serde = {version = "1", features = ["derive"]}
+thiserror = "2"
+rand = "0.10"
+rayon = "1"

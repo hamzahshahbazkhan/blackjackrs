@@ -1,4 +1,4 @@
-use crate::card::Card;
+use crate::card::{Card, Rank};
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct HandValue {
     pub hard: u8,
@@ -57,7 +57,35 @@ impl Hand {
     pub fn first(&self) -> Option<Card> {
         self.cards.first().copied()
     }
-    // pub fn value()
+    pub fn value(&self) -> HandValue {
+        let mut hard: u8 = 0;
+        let mut aces: u8 = 0;
+        for card in &self.cards {
+            match card.rank {
+                Rank::Ace => {
+                    hard += 1;
+                    aces += 1;
+                }
+                Rank::Ten | Rank::Jack | Rank::Queen | Rank::King => hard += 1,
+                Rank::Two => hard += 2,
+                Rank::Three => hard += 3,
+                Rank::Four => hard += 4,
+                Rank::Five => hard += 5,
+                Rank::Six => hard += 6,
+                Rank::Seven => hard += 7,
+                Rank::Eight => hard += 8,
+                Rank::Nine => hard += 9,
+            }
+        }
+        let soft = if aces > 0 && hard + 10 <= 21 {
+            Some(hard + 10)
+        } else {
+            None
+        };
+
+        HandValue { hard, soft }
+    }
+    // Read the BJ rulese about the natural. You will get the answer for your to be questions
     pub fn is_natural(&self) -> bool {
         self.cards.len() == 2 && self.value().best() == 21
     }

@@ -66,7 +66,7 @@ impl Hand {
                     hard += 1;
                     aces += 1;
                 }
-                Rank::Ten | Rank::Jack | Rank::Queen | Rank::King => hard += 1,
+                Rank::Ten | Rank::Jack | Rank::Queen | Rank::King => hard += 10,
                 Rank::Two => hard += 2,
                 Rank::Three => hard += 3,
                 Rank::Four => hard += 4,

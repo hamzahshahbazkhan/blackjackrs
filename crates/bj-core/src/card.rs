@@ -10,18 +10,18 @@
 pub enum Suit {
     Clubs,
     Spades,
-    Heart,
-    Diamond,
+    Hearts,
+    Diamonds,
 }
 
 impl Suit {
     pub fn is_red(self) -> bool {
         // matches is the macro for  the match in a special case of bool.
-        matches!(self, Suit::Heart | Suit::Diamond)
+        matches!(self, Suit::Hearts | Suit::Diamonds)
     }
 
     pub fn all() -> [Suit; 4] {
-        [Suit::Clubs, Suit::Spades, Suit::Heart, Suit::Diamond]
+        [Suit::Clubs, Suit::Spades, Suit::Hearts, Suit::Diamonds]
     }
 }
 
@@ -105,8 +105,8 @@ impl std::fmt::Display for Card {
         let suit_str = match self.suit {
             Suit::Clubs => "♣",
             Suit::Spades => "♠",
-            Suit::Heart => "♥",
-            Suit::Diamond => "♦",
+            Suit::Hearts => "♥",
+            Suit::Diamonds => "♦",
         };
         write!(f, "{}{}", rank_str, suit_str)
     }
@@ -119,7 +119,7 @@ mod tests {
     #[test]
     fn card_display_format() {
         assert_eq!(Card::new(Rank::Ace, Suit::Spades).to_string(), "A♠");
-        assert_eq!(Card::new(Rank::Ten, Suit::Diamond).to_string(), "T♦");
+        assert_eq!(Card::new(Rank::Ten, Suit::Diamonds).to_string(), "T♦");
     }
 
     #[test]

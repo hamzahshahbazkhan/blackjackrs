@@ -8,7 +8,7 @@ pub struct HandValue {
 impl HandValue {
     pub fn best(self) -> u8 {
         match self.soft {
-            Some(s) if s < 21 => s,
+            Some(s) if s <= 21 => s,
             _ => self.hard,
         }
     }
@@ -91,5 +91,76 @@ impl Hand {
     }
     pub fn is_pair(&self) -> bool {
         self.cards.len() == 2 && self.cards[0].rank == self.cards[1].rank
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::card::{Card, Rank, Suit};
+
+    #[test]
+    fn new_hand_starts_empty() {
+        let hand = Hand::new(100);
+
+        assert!(hand.is_empty());
+        assert_eq!(hand.len(), 0);
+        assert_eq!(hand.bet, 100);
+    }
+    #[test]
+    fn first_returns_the_first_card() {
+        let mut hand = Hand::new(0);
+
+        let ace = Card::new(Rank::Ace, Suit::Spades);
+        hand.add_cards(ace);
+        hand.add_cards(Card::new(Rank::King, Suit::Hearts));
+
+        assert_eq!(hand.first(), Some(ace));
+    }
+
+    #[test]
+    fn computes_soft_hand_correctly() {
+        let mut hand = Hand::new(0);
+
+        hand.add_cards(Card::new(Rank::Ace, Suit::Spades));
+        hand.add_cards(Card::new(Rank::Six, Suit::Hearts));
+
+        let value = hand.value();
+
+        assert_eq!(value.hard, 7);
+        assert_eq!(value.soft, Some(17));
+        assert_eq!(value.best(), 17);
+        assert!(value.is_soft());
+    }
+
+    #[test]
+    fn detects_natural_blackjack() {
+        let mut hand = Hand::new(0);
+
+        hand.add_cards(Card::new(Rank::Ace, Suit::Spades));
+        hand.add_cards(Card::new(Rank::King, Suit::Hearts));
+
+        assert!(hand.is_natural());
+    }
+
+    #[test]
+    fn detects_pair() {
+        let mut hand = Hand::new(0);
+
+        hand.add_cards(Card::new(Rank::Eight, Suit::Spades));
+        hand.add_cards(Card::new(Rank::Eight, Suit::Hearts));
+
+        assert!(hand.is_pair());
+    }
+
+    #[test]
+    fn hand_value_reports_bust() {
+        let value = HandValue {
+            hard: 22,
+            soft: None,
+        };
+
+        assert!(value.is_bust());
+        assert_eq!(value.best(), 22);
     }
 }

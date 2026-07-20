@@ -1,6 +1,7 @@
 pub mod card;
 pub mod hand;
 pub mod rules;
+pub mod shoe;
 
 pub fn core_add(left: u64, right: u64) -> u64 {
     left + right
